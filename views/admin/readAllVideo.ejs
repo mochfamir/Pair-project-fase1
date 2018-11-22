@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>List Video</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>LIst Video</h2>
+  <p></p>            
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Link</th>
+        <th>Price</th>
+        <th>Rating</th>
+        <th>Popularity</th>
+        <th>Description</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% data.forEach(video => { %>
+            <tr>
+              <td> <%=video.title %> </td>
+              <td> <%=video.link%> </td>
+              <td> <%=video.price%> </td>
+              <td> <%=video.rating%> </td>
+              <td> <%=video.popularity%> </td>
+              <td> <%=video.description%> </td>
+              <td><button><a href="/admin/update-video/<%= video.id %>">update</a></button><button><a href="/admin/delete-video/<%= video.id %>">delete</a></button></td>
+            </tr>
+        <% }) %>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

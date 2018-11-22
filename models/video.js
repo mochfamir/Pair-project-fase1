@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     link: DataTypes.STRING,
     price: DataTypes.INTEGER,
     rating: DataTypes.INTEGER,
-    popularity: DataTypes.INTEGER
+    popularity: DataTypes.INTEGER,
+    description: DataTypes.STRING
   }, {});
   Video.associate = function(models) {
     // Video.belongsTo(models.Admin)
