@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     birthday: DataTypes.STRING,
-    balance: DataTypes.STRING
+    balance: DataTypes.INTEGER,
+    salt: DataTypes.STRING
   }, {});
   User.associate = function(models) {
     User.hasMany(models.VideoUser)

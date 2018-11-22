@@ -1,6 +1,59 @@
 const { Admin, Video } = require('../models')
-
+const crypto = require('crypto')
 class AdminController {
+    static renderRegisterAdmin(req, res) {
+        res.render('admin/register')
+    }
+    static postRegisterAdmin(req, res) {
+        let salt = req.body.username
+        salt = salt.slice(1, 5)
+        let passwordHash = crypto.createHmac("sha256", salt)
+            .update(req.body.password)
+            .digest("hex")
+        Admin.create({
+            username: req.body.username,
+            email: req.body.email,
+            password: passwordHash,
+            salt: salt
+        })
+            .then(data => {
+                res.redirect('/admin/login')
+            })
+            .catch(err => {
+                res.send(err.message)
+            })
+    }
+    static renderLoginAdmin(req, res) {
+        res.render('admin/login')
+    }
+    static postLoginAdmin(req, res) {
+        Admin.findOne({
+            where: {
+                username: req.body.username
+            }
+        })
+            .then(data => {
+                if (!data) {
+                    throw new Error('Username is wrong!')
+                } else {
+                    return Admin.findById(data.id)
+                }
+            })
+            .then(data => {
+                let salt = data.salt
+                let passwordHash = crypto.createHmac("sha256", salt)
+                    .update(req.body.password)
+                    .digest("hex")
+                if (data.password == passwordHash) {
+                    res.redirect('/admin/list-video')
+                } else {
+                    throw new Error('Password is wrong!')
+                }
+            })
+            .catch(err => {
+                res.send(err.message)
+            })
+    }
     static renderAddVideo(req, res) {
         res.render('admin/addVideo')
     }
@@ -48,10 +101,10 @@ class AdminController {
             popularity: req.body.popularity,
             description: req.body.description
         }, {
-            where: {
-                id: req.params.id
-            }
-        })
+                where: {
+                    id: req.params.id
+                }
+            })
             .then(() => {
                 res.redirect('/admin/list-video')
             })
@@ -65,12 +118,12 @@ class AdminController {
                 id: req.params.id
             }
         })
-        .then(() => {
-            res.redirect('/admin/list-video')
-        })
-        .catch(err => {
-            res.send(err.message)
-        })
+            .then(() => {
+                res.redirect('/admin/list-video')
+            })
+            .catch(err => {
+                res.send(err.message)
+            })
     }
 }
 
