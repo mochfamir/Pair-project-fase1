@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Video.associate = function(models) {
     // Video.belongsTo(models.Admin)
-    Video.hasMany(models.VideoUser)
+    Video.belongsToMany(models.User, { through: models.VideoUser})
   };
   return Video;
 };
