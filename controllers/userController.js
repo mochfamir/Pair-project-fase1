@@ -1,54 +1,61 @@
-const Model         = require ('../models/index.js')
-
-class Controller{
-
-  static register(){
-    let data={
-      first_name  :'andromeda',
-      last_name   :'kambira',
-      email       :'androgred@gmail.com',
-      password    :'12345678',
-      phone       :81212149270,
-      birthday    :"01 November 1990",
-      balance     :200000
-      // first_name  :req.body.first_name,
-      // last_name   :req.body.last_name,
-      // email       :req.body.email,
-      // password    :req.body.password,
-      // phone       :req.body.phone,
-      // birthday    :req.body.birthday,
-      // balance     :req.body.balance
-    }
-    Model.User.create(data)
-    .then(function(){
-      console.log("register berhasil")
-      process.exit()
+const { User } = require('../models')
+const passwordEncrypt = require('../helper/passwordEncrypt')
+class UserController {
+  static renderRegisterUser(req, res) {
+    res.render('user/register')
+  }
+  static postRegisterUser(req, res) {
+    User.create({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      password: passwordEncrypt(req.body.first_name, req.body.password).password,
+      phone: req.body.phone,
+      birthday: req.body.birthday,
+      salt: passwordEncrypt(req.body.first_name, req.body.password).salt
     })
-    .catch(function(err){
-      console.log(err)
-      process.exit()
+      .then(data => {
+        res.redirect('/user/login')
+      })
+      .catch(err => {
+        res.send(err.message)
+      })
+  }
+  static renderLoginUser(req, res) {
+    res.render('user/login')
+  }
+  static postLoginUser(req, res) {
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
     })
-
+      .then(data => {
+        if (!data) {
+          throw new Error('Email is wrong!')
+        } else {
+          return User.findById(data.id)
+        }
+      })
+      .then(data => {
+        if (data.password == passwordEncrypt(data.first_name, req.body.password).password) {
+          req.session.user = {
+            id: data.id,
+            username: data.first_name
+          }
+          // res.send(data)
+          res.redirect('/user/home')
+        } else {
+          throw new Error('Password is wrong!')
+        }
+      })
+      .catch(err => {
+        res.send(err)
+      })
   }
 
-  static readAll(){
-    Model.Video.findAll()
-    .then(function (data) {
-      console.log(data)
-      process.exit()
-    })
-    .catch((err)=>{
-      console.log(err)
-      process.exit()
-    })
-  }
-
-
-  static readVideo(){
-      Model.VideoUser.findAll()
-
-  }
 
 
 }
-Controller.readAll()
+
+module.exports = UserController
