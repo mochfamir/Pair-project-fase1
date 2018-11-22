@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {});
   Admin.associate = function(models) {
-    Admin.hasMany(models.Video)
+    // Admin.hasMany(models.Video)
   };
   return Admin;
 };
