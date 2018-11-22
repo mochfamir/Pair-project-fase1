@@ -1,6 +1,6 @@
 const routes = require('express').Router()
 const AdminController = require('../controllers/adminController')
-
+const isLogin = require('../middleware/session')
 // register
 routes.get('/register', AdminController.renderRegisterAdmin)
 routes.post('/register', AdminController.postRegisterAdmin)
@@ -14,10 +14,10 @@ routes.get('/add-video', AdminController.renderAddVideo)
 routes.post('/add-video', AdminController.postAddVideo)
 
 // read Video
-routes.get('/list-video', AdminController.renderListVideo)
+routes.get('/list-video', isLogin, AdminController.renderListVideo)
 
 // update Vid
-routes.get('/update-video/:id', AdminController.renderFormUpdate)
+routes.get('/update-video/:id',  AdminController.renderFormUpdate)
 routes.post('/update-video/:id', AdminController.postUpdateVideo)
 
 // delete video

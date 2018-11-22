@@ -1,19 +1,14 @@
 const { Admin, Video } = require('../models')
-const crypto = require('crypto')
+const passwordEncrypt = require('../helper/passwordEncrypt')
 class AdminController {
     static renderRegisterAdmin(req, res) {
         res.render('admin/register')
     }
     static postRegisterAdmin(req, res) {
-        let salt = req.body.username
-        salt = salt.slice(1, 5)
-        let passwordHash = crypto.createHmac("sha256", salt)
-            .update(req.body.password)
-            .digest("hex")
         Admin.create({
             username: req.body.username,
             email: req.body.email,
-            password: passwordHash,
+            password: passwordEncrypt(req.body.username, req.body.password),
             salt: salt
         })
             .then(data => {
@@ -40,11 +35,10 @@ class AdminController {
                 }
             })
             .then(data => {
-                let salt = data.salt
-                let passwordHash = crypto.createHmac("sha256", salt)
-                    .update(req.body.password)
-                    .digest("hex")
-                if (data.password == passwordHash) {
+                if (data.password == passwordEncrypt(data.username, req.body.password)) {
+                    req.session.user = {
+                        username: data.username
+                    }
                     res.redirect('/admin/list-video')
                 } else {
                     throw new Error('Password is wrong!')
@@ -84,8 +78,12 @@ class AdminController {
             })
     }
     static renderFormUpdate(req, res) {
-        Video.findById(req.params.id)
-            .then(video => {
+        Video.findOne({
+            where: {
+                id: req.params.id
+            }
+        })    
+        .then(video => {
                 res.render('admin/updateVideo', { video })
             })
             .catch(err => {
