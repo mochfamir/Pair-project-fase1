@@ -21,22 +21,22 @@
   </button>
   <a class="navbar-brand" href="/">Home</a>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+  <!-- <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="/user/my-video/list">Movies <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/user/movie">Movies <span class="sr-only">(current)</span></a>
       </li>
     </ul>
 
-  </div>
+  </div> -->
 </nav>
   <br>
 <div class="container">
   <div class="col-md-8">
-    <h2>Home</h2>
+    <h2>My Videos</h2>
   </div>
   <div class="col-md-7">
-    <h3>Balance: <%= user.rupiah() %></h3>
+    <h3>My Balance: <%= user.rupiah() %></h3>
   </div>
 <br>
   <table class="table">
@@ -44,24 +44,26 @@
     <tr>
       <th scope="col">No</th>
       <th scope="col">Title</th>
-      <th scope="col">Price</th>
+      <th scope="col">Preview</th>
       <th scope="col">Description</th>
-      <th scope="col">Option</th>
+      <th scope="col">Link</th>
+
     </tr>
   </thead>
   <tbody>
     <%let index=1 ;data.forEach(element=>{%>
       <tr>
         <th scope="row"> <%=index%></th>
-        <td><a href=/user/home/detail/<%=element.id%>><%=element.title%></a></td>
-        <!-- <td><iframe width="248" height="131"src="<%element.link%>"></iframe></td> -->
-        <td><%=element.price%></td>
-        <td><%=element.description%></td>
-        <td>
-          <form action="/user/my-video/<%= element.id %>" method="post">
+        <td><%=element.Video.title%></td>
+        <td><iframe width="248" height="131"src="<%element.Video.link%>"></iframe></td>
+        <!-- <td><%=element.Video.price%></td> -->
+        <td><%=element.Video.description%></td>
+        <td><a href="<%=element.Video.link%>"><%=element.Video.link%></a></td>
+        <!-- <td>
+          <form action="/user/my-video/<%= element.Video.id %>" method="post">
           <button type="submit">Buy</button>
           </form>
-        </td>
+        </td> -->
       </tr>
     <%index++})%>
 

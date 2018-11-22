@@ -1,4 +1,4 @@
-const { Video } = require('../models')
+const { Video, User } = require('../models')
 class VideoController {
     static renderAddVideo(req, res) {
         res.render('admin/addVideo')
@@ -74,6 +74,27 @@ class VideoController {
             .catch(err => {
                 res.send(err.message)
             })
+    }
+    static renderHomeUser(req, res) {
+        User.findById(req.session.user.id)
+            .then(user => {
+                console.log(user)
+                return Video.findAll()
+                    .then(data => {
+                        res.render('user/movies', { data, user })
+                    })
+                    .catch(err => {
+                        res.send(err)
+                    })
+            })
+        
+        // VideoUser.myVideos(req.session.user.id)
+        //         .then(data => {
+        //             res.send(data)
+        //         })
+        //         .catch(err => {
+        //             res.send(err)
+        //         })
     }
 }
 

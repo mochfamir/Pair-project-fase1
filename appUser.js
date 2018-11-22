@@ -5,10 +5,12 @@ const Admin = require('./router/adminRouter')
 const User  = require('./router/userRouter')
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
 
-app.get('/',(req,res)=>{
-  res.render('user/login.ejs')
-})
 app.use('/user', User)
 
 app.listen(port, () => {

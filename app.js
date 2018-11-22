@@ -2,7 +2,8 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 const port = 3000
-const Admin = require('./router/adminRouter')
+const admin = require('./router/adminRouter')
+const user = require('./router/userRouter')
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(session({
@@ -11,7 +12,8 @@ app.use(session({
     saveUninitialized: true
 }))
 
-app.use('/admin', Admin)
+app.use('/admin', admin)
+app.use('/user', user)
 
 
 app.listen(port, () => {

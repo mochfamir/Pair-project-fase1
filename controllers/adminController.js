@@ -35,7 +35,7 @@ class AdminController {
                 }
             })
             .then(data => {
-                if (data.password == passwordEncrypt(data.username, req.body.password)) {
+                if (data.password == passwordEncrypt(data.username, req.body.password).password) {
                     req.session.user = {
                         username: data.username
                     }

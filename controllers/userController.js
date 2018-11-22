@@ -12,7 +12,7 @@ class UserController {
       password: passwordEncrypt(req.body.first_name, req.body.password).password,
       phone: req.body.phone,
       birthday: req.body.birthday,
-      salt: passwordEncrypt(req.body.username, req.body.password).salt
+      salt: passwordEncrypt(req.body.first_name, req.body.password).salt
     })
       .then(data => {
         res.redirect('/user/login')
@@ -27,30 +27,34 @@ class UserController {
   static postLoginUser(req, res) {
     User.findOne({
       where: {
-        username: req.body.username
+        email: req.body.email
       }
     })
       .then(data => {
         if (!data) {
-          throw new Error('Username is wrong!')
+          throw new Error('Email is wrong!')
         } else {
           return User.findById(data.id)
         }
       })
       .then(data => {
-        if (data.password == passwordEncrypt(data.username, req.body.password)) {
+        if (data.password == passwordEncrypt(data.first_name, req.body.password).password) {
           req.session.user = {
-            username: data.username
+            id: data.id,
+            username: data.first_name
           }
-          res.redirect('/user/list-video')
+          // res.send(data)
+          res.redirect('/user/home')
         } else {
           throw new Error('Password is wrong!')
         }
       })
       .catch(err => {
-        res.send(err.message)
+        res.send(err)
       })
   }
+
+
 
 }
 

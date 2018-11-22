@@ -12,25 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    password: {
-      type: DataTypes.STRING,
-      validate: {
-        len: [5, 20]
-        // {
-        //   args: [5, 20],
-        //   msg: 'password anda harus berupa charachter dengan panjang minimum 5 '
-        // }
-      }
-    },
-    phone: {
-      type: DataTypes.INTEGER,
-      validate: {
-        len: {
-          args: [10, 13],
-          msg: 'Silahkan memasukan Phone Number dengan panjang karakter 10-13'
-        }
-      }
-    },
+    password: DataTypes.STRING,
+    phone: DataTypes.INTEGER,
     birthday: DataTypes.STRING,
     balance: DataTypes.INTEGER,
     salt: DataTypes.STRING
@@ -38,5 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function (models) {
     User.belongsToMany(models.Video, { through: models.VideoUser })
   };
+  User.prototype.rupiah = function() {
+    return `Rp. ${this.balance}`
+  }
   return User;
 };

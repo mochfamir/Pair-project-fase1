@@ -12,5 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     // Video.belongsTo(models.Admin)
     Video.belongsToMany(models.User, { through: models.VideoUser})
   };
+  
   return Video;
 };
