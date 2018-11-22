@@ -1,5 +1,5 @@
 const routes = require('express').Router()
-const AdminController = require('../controller/adminController')
+const AdminController = require('../controllers/adminController')
 
 // login
 routes.get('/admin', (req, res) => {

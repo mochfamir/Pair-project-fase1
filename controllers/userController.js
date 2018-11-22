@@ -30,6 +30,7 @@ class Controller{
     })
 
   }
+
   static readAll(){
     Model.Video.findAll()
     .then(function (data) {
@@ -41,10 +42,13 @@ class Controller{
       process.exit()
     })
   }
+
+
   static readVideo(){
+      Model.VideoUser.findAll()
 
   }
 
 
 }
-Controller.register()
+Controller.readAll()
