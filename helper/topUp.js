@@ -2,15 +2,15 @@ let nodemailer = require('nodemailer');
 function topup(email, topup) {
 console.log(email, topup)
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'outlook',
   auth: {
-    user: '',
-    pass: ''
+    user: 'solderpanas@hotmail.com',
+    pass: 'zxc130997'
   }
 });
 
 var mailOptions = {
-  from: 'faishalkings@gmail.com',
+  from: 'solderpanas@hotmail.com',
   to: email,
   subject: `Anda telah melakukan top up sebesar Rp.${topup}`,
   text: 'mail'

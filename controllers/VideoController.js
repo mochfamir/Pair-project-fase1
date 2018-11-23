@@ -87,14 +87,7 @@ class VideoController {
                         res.send(err)
                     })
             })
-        
-        // VideoUser.myVideos(req.session.user.id)
-        //         .then(data => {
-        //             res.send(data)
-        //         })
-        //         .catch(err => {
-        //             res.send(err)
-        //         })
+            
     }
 }
 

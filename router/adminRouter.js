@@ -11,17 +11,17 @@ routes.get('/login', AdminController.renderLoginAdmin)
 routes.post('/login', AdminController.postLoginAdmin)
 // routes.post('/login/:id', postLoginAdmin)
 // add Video
-routes.get('/add-video', VideoController.renderAddVideo)
-routes.post('/add-video', VideoController.postAddVideo)
+routes.get('/add-video', isLogin, VideoController.renderAddVideo)
+routes.post('/add-video', isLogin, VideoController.postAddVideo)
 
 // read Video
 routes.get('/list-video', isLogin, VideoController.renderListVideo)
 
 // update Vid
-routes.get('/update-video/:id',  VideoController.renderFormUpdate)
-routes.post('/update-video/:id', VideoController.postUpdateVideo)
+routes.get('/update-video/:id', isLogin, VideoController.renderFormUpdate)
+routes.post('/update-video/:id', isLogin, VideoController.postUpdateVideo)
 
 // delete video
-routes.get('/delete-video/:id', VideoController.deleteVideo)
+routes.get('/delete-video/:id', isLogin, VideoController.deleteVideo)
 
 module.exports = routes

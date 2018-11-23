@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const passwordEncrypt = require('../helper/passwordEncrypt')
 const topUp = require('../helper/topUp')
+const sms = require('../helper/sendSms')
 class UserController {
   static renderRegisterUser(req, res) {
     res.render('user/register')
@@ -55,27 +56,22 @@ class UserController {
       })
   }
   static renderTopup(req, res) {
-    // User.findById(req.session.user.id)
-    //   .then(data => {
-        res.render('user/topupbalance')
-      // })
-      // .catch(err => {
-      //   res.send(err)
-      // })
+    res.render('user/topupbalance')
   }
   static postTopup(req, res) {
     User.findById(req.session.user.id)
       .then(data => {
-        res.send(data)
-        data.balance += req.body.balance
-        data.save()
-        .then(() => {
-          topUp(data.email, data.balance)
-          console.log(data.email)
-          res.redirect('/user/home')
-        })
+        // res.send(data)
+        data.balance += Number(req.body.balance)
+        sms(req.body.phone, `Topup berhasil!`)
+        return data.save()
       })
-      
+      .then(() => {
+        res.redirect('/user/home')
+      })
+      .catch(err => {
+        res.send(err)
+      })
   }
 
 

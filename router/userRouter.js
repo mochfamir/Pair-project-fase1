@@ -16,7 +16,7 @@ routes.post('/login', UserController.postLoginUser)
 routes.get('/home', isLogin, VideoController.renderHomeUser)
 
 // buy link video
-routes.post('/my-video/:id', VideoUserController.postBuyLink)
+routes.post('/my-video/:id', isLogin, VideoUserController.postBuyLink)
 
 // list video yang sudah dibeli
 routes.get('/my-video/list', isLogin, VideoUserController.renderListVideo)
