@@ -21,4 +21,8 @@ routes.post('/my-video/:id', VideoUserController.postBuyLink)
 // list video yang sudah dibeli
 routes.get('/my-video/list', isLogin, VideoUserController.renderListVideo)
 
+//topup
+routes.get('/user/topup', isLogin, UserController.renderTopup)
+routes.get('/user/topup', isLogin, UserController.postTopup)
+
 module.exports = routes

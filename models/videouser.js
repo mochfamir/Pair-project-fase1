@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       afterCreate(videouser, option) {
-        sequelize.models.User.findById(videouser.UserId)
+      return sequelize.models.User.findById(videouser.UserId)
           .then(user => {
-            sequelize.models.Video.findById(videouser.VideoId)
+            return sequelize.models.Video.findById(videouser.VideoId)
             .then(video => {
               console.log(user.balance +'-='+ video.price)
               user.balance -= video.price

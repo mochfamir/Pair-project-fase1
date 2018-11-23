@@ -1,5 +1,6 @@
 const { User } = require('../models')
 const passwordEncrypt = require('../helper/passwordEncrypt')
+const topUp = require('../helper/topUp')
 class UserController {
   static renderRegisterUser(req, res) {
     res.render('user/register')
@@ -48,6 +49,28 @@ class UserController {
         } else {
           throw new Error('Password is wrong!')
         }
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  }
+  static renderTopup(req, res) {
+    // User.findById(req.session.user.id)
+    //   .then(data => {
+        res.render('user/topupbalance', { data })
+      // })
+      // .catch(err => {
+      //   res.send(err)
+      // })
+  }
+  static postTopup(req, res) {
+    User.findById(req.session.user.id)
+      .then(data => {
+        data.balance += req.body.topUp
+        return User.save()
+      })
+      .then((data) => {
+        topUp(data.email, req.body.topUp)
       })
       .catch(err => {
         res.send(err)
