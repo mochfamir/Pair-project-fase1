@@ -11,7 +11,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
-
+app.get('/',(req,res)=>{
+  res.render('user/login')
+})
 app.use('/admin', admin)
 app.use('/user', user)
 
