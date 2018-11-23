@@ -22,7 +22,7 @@ routes.post('/my-video/:id', VideoUserController.postBuyLink)
 routes.get('/my-video/list', isLogin, VideoUserController.renderListVideo)
 
 //topup
-routes.get('/user/topup', isLogin, UserController.renderTopup)
-routes.get('/user/topup', isLogin, UserController.postTopup)
+routes.get('/topup', isLogin, UserController.renderTopup)
+routes.post('/topup', isLogin, UserController.postTopup)
 
 module.exports = routes

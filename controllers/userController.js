@@ -57,7 +57,7 @@ class UserController {
   static renderTopup(req, res) {
     // User.findById(req.session.user.id)
     //   .then(data => {
-        res.render('user/topupbalance', { data })
+        res.render('user/topupbalance')
       // })
       // .catch(err => {
       //   res.send(err)
@@ -66,15 +66,16 @@ class UserController {
   static postTopup(req, res) {
     User.findById(req.session.user.id)
       .then(data => {
-        data.balance += req.body.topUp
-        return User.save()
+        res.send(data)
+        data.balance += req.body.balance
+        data.save()
+        .then(() => {
+          topUp(data.email, data.balance)
+          console.log(data.email)
+          res.redirect('/user/home')
+        })
       })
-      .then((data) => {
-        topUp(data.email, req.body.topUp)
-      })
-      .catch(err => {
-        res.send(err)
-      })
+      
   }
 
 

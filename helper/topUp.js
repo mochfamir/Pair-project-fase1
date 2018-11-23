@@ -1,11 +1,11 @@
 let nodemailer = require('nodemailer');
 function topup(email, topup) {
-
+console.log(email, topup)
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'faishalkings@gmail.com',
-    pass: 'asd130997'
+    user: '',
+    pass: ''
   }
 });
 
